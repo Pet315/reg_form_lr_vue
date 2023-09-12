@@ -18,7 +18,7 @@ class MainController extends Controller
 
     public function step2(Request $request) {
         if (!isset($request['first_name'])) {
-            return View::errorDefine('Main page');
+            return view('main/index', ['error' => '']);
         }
 
         session_destroy();
@@ -28,16 +28,16 @@ class MainController extends Controller
         foreach ($request as $key => $value) {
             if ($value === '') {
                 $key = str_replace("_", " ", $key);
-                return view('main/index', ['content' => "Please enter $key"]);
+                return view('main/index', ['error' => "Please enter $key"]);
             }
         }
 
         if (strpos($_POST['phone'], "_")) {
-            return view('main/index', ['content' => 'Enter your phone number in full']);
+            return view('main/index', ['error' => 'Enter your phone number in full']);
         }
 
         if (!strpos($_POST['email'], "@")) {
-            return view('main/index', ['content' => 'Please use @ in your email']);
+            return view('main/index', ['error' => 'Please use @ in your email']);
         }
 
         $emailRepeats = Member::find($_POST['email'], 'email')[0][0];
@@ -47,11 +47,11 @@ class MainController extends Controller
 
         if ($emailRepeats < 1 or $phoneRepeats < 1) {
             if ($emailRepeats > 0) {
-                return view('main/index', ['content' => 'This email already exists']);
+                return view('main/index', ['error' => 'This email already exists']);
             }
 
             if ($phoneRepeats > 0) {
-                return view('main/index', ['content' => 'This phone number already exists']);
+                return view('main/index', ['error' => 'This phone number already exists']);
             }
         }
 
