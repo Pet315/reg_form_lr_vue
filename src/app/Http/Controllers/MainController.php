@@ -16,34 +16,33 @@ class MainController extends Controller
         return view('main/index', ['error' => '']);
     }
 
-    public function step2(Request $request) {
-        if (!isset($request['first_name'])) {
-            return view('main/index', ['error' => '']);
+    public function step2(Request $req) {
+        $request = $req->all();
+
+        if (session_start()) {
+            session_destroy();
+            session_start();
         }
 
-        session_destroy();
-        session_start();
         $_SESSION['POST'] = $request;
 
         foreach ($request as $key => $value) {
-            if ($value === '') {
+            if ($value === NULL) {
                 $key = str_replace("_", " ", $key);
                 return view('main/index', ['error' => "Please enter $key"]);
             }
         }
 
-        if (strpos($_POST['phone'], "_")) {
+        if (strpos($request['phone'], "_")) {
             return view('main/index', ['error' => 'Enter your phone number in full']);
         }
 
-        if (!strpos($_POST['email'], "@")) {
+        if (!strpos($request['email'], "@")) {
             return view('main/index', ['error' => 'Please use @ in your email']);
         }
 
-        $emailRepeats = Member::find($_POST['email'], 'email')[0][0];
-        $phoneRepeats = Member::find($_POST['phone'], 'phone')[0][0];
-
-        echo $emailRepeats;
+        $emailRepeats = Member::where('email', $request['email'])->count();
+        $phoneRepeats = Member::where('phone', $request['phone'])->count();
 
         if ($emailRepeats < 1 or $phoneRepeats < 1) {
             if ($emailRepeats > 0) {
@@ -55,7 +54,7 @@ class MainController extends Controller
             }
         }
 
-        Member::where('email', $_POST['email'])->where('phone', $_POST['phone'])->delete();
+        Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
 
         Member::insert([
             'first_name' => $request->first_name,
@@ -67,12 +66,33 @@ class MainController extends Controller
             'email' => $request->email,
         ]);
 
-        return view('main/step2');
+        return view('main/step2', ['error' => '']);
     }
 
-    public function social_buttons() {
-        session_start();
-        return view('main/social_buttons');
+    public function social_buttons(Request $req) {
+        $request = $req->all();
+
+        if ($_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'public/img/';
+            $photo = uniqid('', true) . '_' . $_FILES['photo']['name'];
+            $targetFile = $uploadDir . $photo;
+            move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
+        } else {
+            $photo = '';
+        }
+
+        Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
+//        $this->model->saveForm($_POST, false, $photo);
+
+
+//        $number = $this->model->recordsNumber();
+        $tw = require 'app/config/tw_share.php';
+        $vars = [
+//            'number' => $number[0][0],
+            'tw' => $tw
+        ];
+
+        $this->view->render("Social buttons", $vars);
     }
 
     public function all_members() {

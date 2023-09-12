@@ -12,7 +12,7 @@
     <div class="container my-5">
         <h3>To participate in the conference, please fill out the form</h3>
 
-        <form action="/reg_form_php/social_buttons" method="post" enctype="multipart/form-data" onsubmit="return checkFileSize()">
+        <form action="/social_buttons" method="post" enctype="multipart/form-data" onsubmit="return checkFileSize()">
 
             <input type="hidden" name="first_name" value="<?= $_SESSION['POST']['first_name'] ?>">
             <input type="hidden" name="last_name" value="<?= $_SESSION['POST']['last_name'] ?>">
@@ -37,7 +37,7 @@
             <div class="mb-3">
                 <label for="photo">Photo (file size: 2MB):</label>
                 <input type="file" class="custom-file-input" id="photo" name="photo" accept="image/jpeg, image/png">
-                <br><small class="form-text text-danger" id="fileSizeError"><?= $content?></small>
+                <br><small class="form-text text-danger" id="fileSizeError">{{$error}}</small>
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary" id="nextStep2">Next</button>

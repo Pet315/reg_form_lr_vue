@@ -16,7 +16,7 @@ use App\Http\Controllers\MainController;
 
 Route::get('/', MainController::class);
 
-Route::get('/step2', [MainController::class, 'step2']);
+Route::post('/step2', [MainController::class, 'step2']);
 
 Route::get('/social_buttons', [MainController::class, 'social_buttons']);
 

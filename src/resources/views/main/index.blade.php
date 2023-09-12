@@ -24,6 +24,7 @@
         <h3>To participate in the conference, please fill out the form</h3>
 
         <form action="/step2" method="post" id="form">
+            @csrf
             <div class="mb-3">
                 <label for="first_name" class="form-label">First Name (max length: 30 symbols):</label>
                 <input type="text" class="form-control" name="first_name" value="@if (isset($_SESSION['POST']['first_name'])) {{$_SESSION['POST']['first_name']}} @endif" maxlength="30">
