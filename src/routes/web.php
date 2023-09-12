@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,24 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    session_start();
-    return view('main/index');
-});
+Route::get('/', MainController::class);
 
-Route::get('/step2', function () {
-    session_start();
-    return view('main/step2');
-});
+Route::get('/step2', [MainController::class, 'step2']);
 
-Route::get('/social_buttons', function () {
-    session_start();
-    return view('main/social_buttons');
-});
+Route::get('/social_buttons', [MainController::class, 'social_buttons']);
 
-Route::get('/all_members', function () {
-    return view('main/all_members');
-});
+Route::get('/all_members', [MainController::class, 'all_members']);
 
 Auth::routes();
 

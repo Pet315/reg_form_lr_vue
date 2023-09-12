@@ -26,40 +26,40 @@
         <form action="/step2" method="post" id="form">
             <div class="mb-3">
                 <label for="first_name" class="form-label">First Name (max length: 30 symbols):</label>
-                <input type="text" class="form-control" name="first_name" value="<?php if (isset($_SESSION['POST']['first_name'])) { echo $_SESSION['POST']['first_name']; } ?>" maxlength="30">
-{{--                <?php if (strpos($content, 'first name')): ?>--}}
-{{--                    <small class="form-text text-danger"><?= $content?></small>--}}
-{{--                <?php endif; ?>--}}
+                <input type="text" class="form-control" name="first_name" value="@if (isset($_SESSION['POST']['first_name'])) {{$_SESSION['POST']['first_name']}} @endif" maxlength="30">
+                @if (strpos($error, 'first name'))
+                    <small class="form-text text-danger">{{$error}}</small>
+                @endif
             </div>
 
             <div class="mb-3">
                 <label for="last_name" class="form-label">Last Name (max length: 50):</label>
-                <input type="text" class="form-control" name="last_name" value="<?php if (isset($_SESSION['POST']['first_name'])) { echo $_SESSION['POST']['last_name']; } ?>" maxlength="50">
-{{--                <?php if (strpos($content, 'last name')): ?>--}}
-{{--                    <small class="form-text text-danger"><?= $content?></small>--}}
-{{--                <?php endif; ?>--}}
+                <input type="text" class="form-control" name="last_name" value="@if (isset($_SESSION['POST']['first_name'])) {{$_SESSION['POST']['last_name']}} @endif" maxlength="50">
+                @if (strpos($error, 'last name'))
+                    <small class="form-text text-danger">{{$error}}</small>
+                @endif
             </div>
 
             <div class="mb-3">
                 <label for="birthdate" class="form-label">Birth date:</label>
-                <input type="date" class="form-control" name="birthdate" max="<?php echo date('Y-m-d'); ?>" value="<?php if (isset($_SESSION['POST']['first_name'])) { echo $_SESSION['POST']['birthdate']; } ?>">
-{{--                <?php if (strpos($content, 'birthdate')): ?>--}}
-{{--                    <small class="form-text text-danger"><?= $content?></small>--}}
-{{--                <?php endif; ?>--}}
+                <input type="date" class="form-control" name="birthdate" max="@if (isset($_SESSION['POST']['first_name'])) {{$_SESSION['POST']['birthdate']}} @endif">
+                @if (strpos($error, 'birthdate'))
+                    <small class="form-text text-danger">{{$error}}</small>
+                @endif
             </div>
 
             <div class="mb-3">
                 <label for="report_subject" class="form-label">Report Subject (max length: 150):</label>
-                <input type="text" class="form-control" name="report_subject" value="<?php if (isset($_SESSION['POST']['first_name'])) { echo $_SESSION['POST']['report_subject']; } ?>" maxlength="150">
-{{--                <?php if (strpos($content, 'report subject')): ?>--}}
-{{--                    <small class="form-text text-danger"><?= $content?></small>--}}
-{{--                <?php endif; ?>--}}
+                <input type="text" class="form-control" name="report_subject" value="@if (isset($_SESSION['POST']['first_name'])) {{$_SESSION['POST']['report_subject']}} @endif" maxlength="150">
+                @if (strpos($error, 'report subject'))
+                    <small class="form-text text-danger">{{$error}}</small>
+                @endif
             </div>
 
             <div class="mb-3">
                 <label for="country" class="form-label">Country:</label>
                 <select id="country" name="country" class="form-select search_select_box"></select>
-                <span class="d-none"><?php if (isset($_SESSION['POST']['first_name'])) { echo $_SESSION['POST']['country']; } ?></span>
+                <span class="d-none">@if (isset($_SESSION['POST']['first_name'])) {{$_SESSION['POST']['country']}} @endif</span>
             </div>
 
             <script>
@@ -95,23 +95,23 @@
 
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone (use this format: +1 (555) 555-5555):</label>
-                <input type="tel" class="form-control" name="phone" id="phone" value="<?php if (isset($_SESSION['POST']['first_name']) and !strpos($content, 'phone')) { echo $_SESSION['POST']['phone']; } ?>">
+                <input type="tel" class="form-control" name="phone" id="phone" value="@if (isset($_SESSION['POST']['first_name']) and !strpos($error, 'phone')) {{$_SESSION['POST']['phone']}} @endif">
                 <script>
                     $(document).ready(function () {
                         $('#phone').inputmask('+9[9] (999) 999-9999');
                     });
                 </script>
-{{--                <?php if (strpos($content, 'phone')): ?>--}}
-{{--                    <small class="form-text text-danger"><?= $content?></small>--}}
-{{--                <?php endif; ?>--}}
+                @if (strpos($error, 'phone'))
+                    <small class="form-text text-danger">{{$error}}</small>
+                @endif
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email (max length: 70):</label>
-                <input type="text" class="form-control" name="email" value="<?php if (isset($_SESSION['POST']['first_name']) and !strpos($content, 'email')) { echo $_SESSION['POST']['email']; } ?>" maxlength="70">
-{{--                <?php if (strpos($content, 'email')): ?>--}}
-{{--                    <small class="form-text text-danger"><?= $content?></small>--}}
-{{--                <?php endif; ?>--}}
+                <input type="text" class="form-control" name="email" value="@if (isset($_SESSION['POST']['first_name']) and !strpos($error, 'email')) {{$_SESSION['POST']['email']}} @endif" maxlength="70">
+                @if (strpos($error, 'email'))
+                    <small class="form-text text-danger">{{$error}}</small>
+                @endif
                 <span id="emailError" style="color: red;"></span>
             </div>
 

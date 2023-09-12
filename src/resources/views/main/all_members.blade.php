@@ -1,6 +1,10 @@
-<?php require 'app/views/layout.blade.php'; ?>
+@extends('layout')
 
-<head>
+@section('title')
+    All members
+@endsection
+
+@section('head content')
     <style>
         img {
             height: 20px;
@@ -10,9 +14,9 @@
             text-align: center;
         }
     </style>
-</head>
+@endsection
 
-<body>
+@section('body content')
     <div class="container my-5">
         <h3>All members</h3>
         <table class="table table-bordered">
@@ -26,25 +30,22 @@
             </thead>
             <tbody>
 
-            <?php
-                foreach ($users as $user) {
-                    echo "<tr>";
-                    echo "<td>";
-                    if ($user["photo"]) {
-                        echo "<img src='public/img/" . $user["photo"] . "' alt='User'>";
-                    } else {
-                        echo "<img src='public/img/default_user.png' alt='Default User'>". $user["photo"];
-                    }
-                    echo "</td>";
-                    // echo "<td><img src='public/img/" . ($user["photo"] ? $user["photo"] : "default_user.png") . "' alt='Default User'></td>";
-                    echo "<td>" . $user["first_name"] . " " . $user["last_name"] . "</td>";
-                    echo "<td>" . $user["report_subject"] . "</td>";
-                    echo "<td><a href='mailto:" . $user["email"] . "'>" . $user["email"] . "</a></td>";
-                    echo "</tr>";
-                }
-            ?>
+            @foreach ($members as $member)
+                <tr>
+                    <td>
+                        @if ($member["photo"])
+                           <img src='img/{{$member["photo"]}}' alt='User'>"
+                        @else
+                            <img src='img/default_user.png' alt='Default User'>
+                        @endif
+                    </td>
+                    <td>{{$member["first_name"]}} {{$member["last_name"]}}</td>
+                    <td>{{$member["report_subject"]}}</td>
+                    <td><a href='mailto:{{$member["email"]}}'>{{$member["email"]}}</a></td>
+                </tr>
+            @endforeach
 
             </tbody>
         </table>
     </div>
-</body>
+@endsection
