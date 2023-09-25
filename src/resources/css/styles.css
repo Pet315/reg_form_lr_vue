@@ -1,0 +1,31 @@
+.map-iframe {
+    width: 100%;
+    height: 450px;
+    border: 0;
+}
+h3 {
+    margin-top: 30px;
+}
+form {
+    width: 50%;
+}
+form, table {
+    margin-top: 30px;
+}
+#form1 .form-label:after {
+    content:" *";
+    color: red;
+}
+table {
+    text-align: center;
+}
+img {
+    height: 20px;
+    width: 20px;
+}
+h4 {
+    color:#000;
+}
+#tw_link {
+    margin-left: 30px;
+}

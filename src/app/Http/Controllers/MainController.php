@@ -26,19 +26,21 @@ class MainController extends Controller
 
         $_SESSION['POST'] = $request;
 
-        foreach ($request as $key => $value) {
-            if ($value === NULL) {
+        $errors = [];
+
+        foreach ($_POST as $key => $value) {
+            if ($value === '') {
                 $key = str_replace("_", " ", $key);
-                return view('main/index', ['error' => "Please enter $key"]);
+                $errors[] = "Please enter $key";
             }
         }
 
-        if (strpos($request['phone'], "_")) {
-            return view('main/index', ['error' => 'Enter your phone number in full']);
+        if (strpos($_POST['phone'], "_")) {
+            $errors[] = "Enter your phone number in full";
         }
 
-        if (!strpos($request['email'], "@")) {
-            return view('main/index', ['error' => 'Please use @ in your email']);
+        if (!strpos($_POST['email'], "@")) {
+            $errors[] = "Please use @ in your email";
         }
 
         $emailRepeats = Member::where('email', $request['email'])->count();
@@ -46,12 +48,16 @@ class MainController extends Controller
 
         if ($emailRepeats < 1 or $phoneRepeats < 1) {
             if ($emailRepeats > 0) {
-                return view('main/index', ['error' => 'This email already exists']);
+                $errors[] = 'This email already exists';
             }
 
             if ($phoneRepeats > 0) {
-                return view('main/index', ['error' => 'This phone number already exists']);
+                $errors[] = 'This phone number already exists';
             }
+        }
+
+        if (!empty($errors)) {
+            return view('main/step2', ['errors' => $errors]);
         }
 
         Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
@@ -84,7 +90,6 @@ class MainController extends Controller
         Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
 //        $this->model->saveForm($_POST, false, $photo);
 
-
 //        $number = $this->model->recordsNumber();
         $tw = require 'app/config/tw_share.php';
         $vars = [
@@ -96,7 +101,6 @@ class MainController extends Controller
     }
 
     public function all_members() {
-        session_start();
         $members = Member::get();
         return view('main/all_members', ['members' => $members]);
     }
