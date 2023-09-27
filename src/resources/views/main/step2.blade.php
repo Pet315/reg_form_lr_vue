@@ -35,7 +35,7 @@
             <input type="file" class="custom-file-input" id="photo" name="photo" accept="image/jpeg, image/png">
             <br><small class="form-text text-danger" id="fileSizeError"></small>
         </div>
-        <script src="public/js/checkPhoto.js"></script>
+        <script src="{{ asset('js/checkPhoto.js') }}"></script>
 
         <div class="mb-3">
             <button type="submit" class="btn btn-primary" id="nextStep2">Next</button>

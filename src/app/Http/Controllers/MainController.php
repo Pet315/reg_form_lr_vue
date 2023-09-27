@@ -57,7 +57,7 @@ class MainController extends Controller
         }
 
         if (!empty($errors)) {
-            return view('main/step2', ['errors' => $errors]);
+            return view('main/index', ['errors' => $errors])->withErrors($errors);
         }
 
         Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();

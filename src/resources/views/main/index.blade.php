@@ -61,7 +61,7 @@
                 <select id="country" name="country" class="form-select search_select_box"></select>
                 <span class="d-none">@if(isset($_SESSION['POST']['first_name'])){{$_SESSION['POST']['country']}}@endif</span>
             </div>
-            <script src="public/js/selectCountry.js"></script>
+            <script src="{{ asset('js/selectCountry.js') }}"></script>
 
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone (use this format: +1 (555) 555-5555):</label>
@@ -71,7 +71,7 @@
                     <small class="form-text text-danger">{{ $errors->first('phone') }}</small>
                 @endif
             </div>
-            <script src="public/js/phoneMask.js"></script>
+            <script src="{{ asset('js/phoneMask.js') }}"></script>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email (max length: 70):</label>
