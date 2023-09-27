@@ -8,27 +8,23 @@
     <div class="container my-5">
     <h3>To participate in the conference, please fill out the form</h3>
 
-    <form id="form2" action="/reg_form_php/social_buttons" method="post" enctype="multipart/form-data">
-
-        <input type="hidden" name="first_name" value="<?= $_SESSION['POST']['first_name'] ?>">
-        <input type="hidden" name="last_name" value="<?= $_SESSION['POST']['last_name'] ?>">
-        <input type="hidden" name="birthdate" value="<?= $_SESSION['POST']['birthdate'] ?>">
-        <input type="hidden" name="report_subject" value="<?= $_SESSION['POST']['report_subject'] ?>">
-        <input type="hidden" name="country" value="<?= $_SESSION['POST']['country'] ?>">
-        <input type="hidden" name="phone" value="<?= $_SESSION['POST']['phone'] ?>">
-        <input type="hidden" name="email" value="<?= $_SESSION['POST']['email'] ?>">
+    <form id="form2" action="/social_buttons" method="post" enctype="multipart/form-data">
+        @csrf
+        @foreach($request as $key => $value)
+            <input type="hidden" name="{{$key}}" value="{{$value}}">
+        @endforeach
 
         <div class="mb-3">
             <label for="company">Company:</label>
-            <input type="text" class="form-control" name="company" value="@if(isset($_SESSION['POST']['company'])){{$_SESSION['POST']['company']}}@endif">
+            <input type="text" class="form-control" name="company" value="@if(isset($old)){{ $old['company'] }}@endif">
         </div>
         <div class="mb-3">
             <label for="position">Position:</label>
-            <input type="text" class="form-control" name="position" value="@if(isset($_SESSION['POST']['position'])){{$_SESSION['POST']['position']}}@endif">
+            <input type="text" class="form-control" name="position" value="@if(isset($old)){{ $old['position'] }}@endif">
         </div>
         <div class="mb-3">
             <label for="about-me">About me:</label>
-            <textarea class="form-control" name="about_me" rows="4">@if(isset($_SESSION['POST']['about_me'])){{$_SESSION['POST']['about_me']}}@endif</textarea>
+            <textarea class="form-control" name="about_me" rows="4">@if(isset($old)){{ $old['about_me'] }}@endif</textarea>
         </div>
         <div class="mb-3">
             <label for="photo">Photo (file size: 2MB):</label>

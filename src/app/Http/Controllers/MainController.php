@@ -1,46 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MainController extends Controller
 {
     public function __invoke()
     {
-        if (session_start()) {
-            session_destroy();
-            session_start();
-        }
-        return view('main/index', ['error' => '']);
+        return view('main/index');
     }
 
     public function step2(Request $req) {
-        $request = $req->all();
-
-        if (session_start()) {
-            session_destroy();
-            session_start();
-        }
-
-        $_SESSION['POST'] = $request;
-
-        $errors = [];
+        $request = $req->except('_token');
+        $errors = new \Illuminate\Support\MessageBag;
 
         foreach ($_POST as $key => $value) {
             if ($value === '') {
-                $key = str_replace("_", " ", $key);
-                $errors[] = "Please enter $key";
+                $errors->add("$key", "Please enter $key");
             }
         }
 
         if (strpos($_POST['phone'], "_")) {
-            $errors[] = "Enter your phone number in full";
+            $errors->add('phone', "Enter your phone number in full");
         }
 
         if (!strpos($_POST['email'], "@")) {
-            $errors[] = "Please use @ in your email";
+            $errors->add('email', "Please use @ in your email");
         }
 
         $emailRepeats = Member::where('email', $request['email'])->count();
@@ -48,56 +35,42 @@ class MainController extends Controller
 
         if ($emailRepeats < 1 or $phoneRepeats < 1) {
             if ($emailRepeats > 0) {
-                $errors[] = 'This email already exists';
+                $errors->add('email', 'This email already exists');
             }
 
             if ($phoneRepeats > 0) {
-                $errors[] = 'This phone number already exists';
+                $errors->add('phone', 'This phone number already exists');
             }
         }
 
-        if (!empty($errors)) {
-            return view('main/index', ['errors' => $errors])->withErrors($errors);
+        if ($errors->any()) {
+            return view('main/index', ['old' => $request])->withErrors($errors);
         }
 
         Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
+        Member::insert($request);
 
-        Member::insert([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'birthdate' => $request->birthdate,
-            'report_subject' => $request->report_subject,
-            'country' => $request->country,
-            'phone' => $request->phone,
-            'email' => $request->email,
-        ]);
-
-        return view('main/step2', ['error' => '']);
+        return view('main/step2', ['request' => $request]);
     }
 
     public function social_buttons(Request $req) {
-        $request = $req->all();
+        $request = $req->except('_token');
 
-        if ($_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'public/img/';
-            $photo = uniqid('', true) . '_' . $_FILES['photo']['name'];
-            $targetFile = $uploadDir . $photo;
-            move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile);
+        if ($req->hasFile('photo') && $req->file('photo')->isValid()) {
+            $photoName = uniqid('', true) . '_' . $req->file('photo')->getClientOriginalName();
+            $req->file('photo')->storeAs('public/img', $photoName);
+//            Storage::putFileAs('public/img', $req->file('photo'), $photoName);
+            echo $req->file('photo');
         } else {
-            $photo = '';
+            $photoName = '';
         }
 
+        $request['photo'] = $photoName;
         Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
-//        $this->model->saveForm($_POST, false, $photo);
+        Member::insert($request);
 
-//        $number = $this->model->recordsNumber();
-        $tw = require 'app/config/tw_share.php';
-        $vars = [
-//            'number' => $number[0][0],
-            'tw' => $tw
-        ];
-
-        $this->view->render("Social buttons", $vars);
+        $tw = ['link' => config('link'), 'text' => config('text')];
+        return view("main/social_buttons", ['number' => Member::count(), 'tw' => $tw]);
     }
 
     public function all_members() {

@@ -34,9 +34,9 @@
                 <tr>
                     <td>
                         @if ($member["photo"])
-                           <img src='img/{{$member["photo"]}}' alt='User'>"
+                            <img src="{{ asset("img/".$member['photo']) }}" alt="User">
                         @else
-                            <img src='img/default_user.png' alt='Default User'>
+                            <img src="{{ asset('img/default_user.png') }}" alt='Default User'>
                         @endif
                     </td>
                     <td>{{$member["first_name"]}} {{$member["last_name"]}}</td>

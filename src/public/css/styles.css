@@ -19,6 +19,10 @@ form, table {
 table {
     text-align: center;
 }
+#btn {
+    height: 100px;
+    width: 100px;
+}
 img {
     height: 20px;
     width: 20px;

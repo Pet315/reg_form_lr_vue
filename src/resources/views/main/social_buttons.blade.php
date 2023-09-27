@@ -7,10 +7,10 @@
 @section('body content')
     <div class="text-center mt-4">
         <a href="https://www.facebook.com/sharer/sharer.php?u= {{urlencode('http://localhost.com/reg_form_php/index')}}" class="btn btn-link" target="_blank">
-            <img src="public/img/fb.png" alt="FB" width="100">
+            <img src="{{ asset('img/fb.png') }}" alt="FB" id="btn">
         </a>
         <a href="https://twitter.com/intent/tweet?text={{urlencode($tw['text'])}}&url={{urlencode($tw['link'])}}" class="btn btn-link" id="tw_link" target="_blank">
-            <img src="public/img/tw.png" alt="TW" width="100">
+            <img src="{{ asset('img/tw.png') }}" alt="TW" id="btn">
         </a>
     </div>
 

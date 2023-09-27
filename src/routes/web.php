@@ -18,7 +18,7 @@ Route::get('/', MainController::class);
 
 Route::post('/step2', [MainController::class, 'step2']);
 
-Route::get('/social_buttons', [MainController::class, 'social_buttons']);
+Route::post('/social_buttons', [MainController::class, 'social_buttons']);
 
 Route::get('/all_members', [MainController::class, 'all_members']);
 
