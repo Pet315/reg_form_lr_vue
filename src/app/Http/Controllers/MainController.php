@@ -9,7 +9,7 @@ class MainController extends Controller
 {
     public function __invoke()
     {
-        return view('main/index');
+        return view('welcome');
     }
 
     public function step2(Request $req) {
@@ -58,9 +58,7 @@ class MainController extends Controller
 
         if ($req->hasFile('photo') && $req->file('photo')->isValid()) {
             $photoName = uniqid('', true) . '_' . $req->file('photo')->getClientOriginalName();
-            $req->file('photo')->storeAs('public/img', $photoName);
-//            Storage::putFileAs('public/img', $req->file('photo'), $photoName);
-            echo $req->file('photo');
+            $req->file('photo')->storeAs('img', $photoName);
         } else {
             $photoName = '';
         }
