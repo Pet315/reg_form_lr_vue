@@ -1,23 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+<div class="container my-5">
+    <h4>Members</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Photo</th>
+            <th>Full Name</th>
+            <th>Report Subject</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+        @foreach ($members as $member)
+            <tr>
+                <td>
+                    @if ($member["photo"])
+                        <img src="{{ asset('img/' . $member['photo']) }}" alt="User">
+                    @else
+                        <img src="{{ asset('img/default_user.png') }}" alt='Default User'>
                     @endif
+                </td>
+                <td>{{$member["first_name"]}} {{$member["last_name"]}}</td>
+                <td>{{$member["report_subject"]}}</td>
+                <td>{{$member["email"]}}</td>
+                <td>{{$members[0]}}</td>
+            </tr>
+        @endforeach
 
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
-    </div>
+        </tbody>
+    </table>
 </div>
 @endsection

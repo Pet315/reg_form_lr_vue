@@ -9,7 +9,7 @@ class MainController extends Controller
 {
     public function __invoke()
     {
-        return view('welcome');
+        return view('main/index');
     }
 
     public function step2(Request $req) {
