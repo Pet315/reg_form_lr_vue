@@ -36,3 +36,9 @@ h4 {
 nav {
     margin-bottom: 30px;
 }
+#hide_btn {
+    margin-left: 5px;
+}
+#del_btn {
+    margin-top: 5px;
+}
