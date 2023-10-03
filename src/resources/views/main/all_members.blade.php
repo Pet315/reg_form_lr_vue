@@ -28,23 +28,22 @@
                     <th>Email</th>
                 </tr>
             </thead>
+
             <tbody>
-
-            @foreach ($members as $member)
-                <tr>
-                    <td>
-                        @if ($member["photo"])
-                            <img src="{{ asset('img/' . $member['photo']) }}" alt="User">
-                        @else
-                            <img src="{{ asset('img/default_user.png') }}" alt='Default User'>
-                        @endif
-                    </td>
-                    <td>{{$member["first_name"]}} {{$member["last_name"]}}</td>
-                    <td>{{$member["report_subject"]}}</td>
-                    <td><a href='mailto:{{$member["email"]}}'>{{$member["email"]}}</a></td>
-                </tr>
-            @endforeach
-
+                @foreach ($members as $member)
+                    <tr>
+                        <td>
+                            @if ($member["photo"])
+                                <img src="{{ asset('img/' . $member['photo']) }}" alt="User">
+                            @else
+                                <img src="{{ asset('img/default_user.png') }}" alt='Default User'>
+                            @endif
+                        </td>
+                        <td>{{$member["first_name"]}} {{$member["last_name"]}}</td>
+                        <td>{{$member["report_subject"]}}</td>
+                        <td><a href='mailto:{{$member["email"]}}'>{{$member["email"]}}</a></td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

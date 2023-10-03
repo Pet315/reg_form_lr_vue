@@ -6,31 +6,46 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Photo</th>
-            <th>Full Name</th>
-            <th>Report Subject</th>
-            <th>Email</th>
+            @foreach(array_keys($members[0]) as $key)
+                <th>{{$key}}</th>
+            @endforeach
         </tr>
         </thead>
-        <tbody>
 
+        <tbody>
         @foreach ($members as $member)
             <tr>
-                <td>
-                    @if ($member["photo"])
-                        <img src="{{ asset('img/' . $member['photo']) }}" alt="User">
-                    @else
-                        <img src="{{ asset('img/default_user.png') }}" alt='Default User'>
-                    @endif
-                </td>
-                <td>{{$member["first_name"]}} {{$member["last_name"]}}</td>
-                <td>{{$member["report_subject"]}}</td>
-                <td>{{$member["email"]}}</td>
-                <td>{{$members[0]}}</td>
+                @foreach ($member as $key => $value)
+                    <td>
+                        @if ($key === 'photo')
+                            @if ($value)
+                                <img src="{{ asset('img/' . $value) }}" alt="User">
+                            @else
+                                <img src="{{ asset('img/default_user.png') }}" alt='Default User'>
+                            @endif
+                        @else
+                            {{$value}}
+                        @endif
+{{--                        <edit-field :initial-value="item.field" @save="saveField(item, $event)"></edit-field>--}}
+                    </td>
+                @endforeach
             </tr>
         @endforeach
-
         </tbody>
     </table>
 </div>
+
+{{--<script>--}}
+{{--    new Vue({--}}
+{{--        el: '#app',--}}
+{{--        data: {--}}
+{{--            items: []--}}
+{{--        },--}}
+{{--        methods: {--}}
+{{--            saveField(item, newValue) {--}}
+{{--            }--}}
+{{--        }--}}
+{{--    });--}}
+{{--</script>--}}
+
 @endsection

@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $members = Member::get();
+        $members = Member::get()->toArray();
 //        var_dump((array) $members[0]);
         return view('home', ['members' => $members]);
     }
