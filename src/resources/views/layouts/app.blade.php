@@ -19,6 +19,7 @@
 </head>
 <body>
     <div id="app">
+        <example-component></example-component>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">Back to form</a>
