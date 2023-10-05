@@ -1,5 +1,4 @@
 <template>
-    <p>{{formData}}</p>
     <form @submit.prevent="submitForm" id="form1">
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name (max length: 30 symbols):</label>
@@ -36,7 +35,7 @@
 
         <div class="mb-3">
             <label for="phone" class="form-label">Phone (use this format: +1 (555) 555-5555):</label>
-            <input type="tel" class="form-control" name="phone" id="phone" v-mask="'+9 (999) 999-9999'" v-model="formData.phone">
+            <input type="text" class="form-control" name="phone" id="phone" v-model="formData.phone">
             <small class="form-text text-danger" v-if="errors.phone">{{ errors.phone[0] }}</small>
         </div>
 
@@ -51,6 +50,8 @@
 </template>
 
 <script>
+import Inputmask from 'inputmask';
+
 export default {
     data() {
         return {
@@ -62,6 +63,10 @@ export default {
                 country: '',
                 phone: '',
                 email: '',
+                company: '',
+                position: '',
+                about_me: '',
+                photo: ''
             },
             countries: [],
             errors: {},
@@ -78,11 +83,12 @@ export default {
     },
     mounted() {
         this.fetchCountries();
-        // $(document).ready(function () {
-        //     const phoneInput = document.getElementById('phone');
-        //     Inputmask({ mask: '+9[9] (999) 999-9999' }).mask(phoneInput);
-        // });
+        const phoneInput = document.getElementById('phone');
+        Inputmask({ mask: '+9[9] (999) 999-9999' }).mask(phoneInput);
     },
+    // directives: {
+    //     mask: VueTheMask.directive,
+    // },
     methods: {
         fetchCountries() {
             fetch('https://restcountries.com/v3.1/all')
@@ -95,10 +101,16 @@ export default {
                 });
         },
         submitForm() {
-            axios.post('/step2', this.formData)
+            axios.post('/submit_form1', this.formData)
                 .then(response => {
                     console.log(response.data);
+                    // if (response.status === 200) {
+                    //     window.location.href = '/step2';
+                    // } else {
+                    //     console.log('Error');
+                    // }
                 })
+
                 .catch(error => {
                     this.errors = error.response.data.errors;
                 });

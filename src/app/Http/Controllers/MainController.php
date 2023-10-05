@@ -8,21 +8,24 @@ use Illuminate\Support\Facades\Validator;
 
 class MainController extends Controller
 {
-    public function __invoke()
-    {
-        return view('main/index');
+    public function __invoke() {
+        return view('main.index');
     }
 
-    public function step2(Request $request)
+    public function step2() {
+        return view('main.step2');
+    }
+
+    public function submit_form1(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|max:30',
             'last_name' => 'required|max:50',
             'birthdate' => 'required|date',
             'report_subject' => 'required|max:150',
-            'phone' => 'required',
+//            'phone' => 'required',
 //            'phone' => 'required|regex:/\+\d{1,2}\s\(\d{3}\)\s\d{3}-\d{4}/',
-//            'phone' => 'required|text|not_regex:/_/',
+            'phone' => 'required|not_regex:/_/',
             'email' => 'required|email|max:70',
         ]);
 
@@ -34,7 +37,7 @@ class MainController extends Controller
         $phoneRepeats = Member::where('phone', $request->phone)->count();
 
         if ($emailRepeats > 0) {
-            return response()->json(['errors' => ['email' => ['This email already exists']]], 422);
+            return response()->json(['errors' => ['email' => [$request->all()]]], 422);
         }
 
         if ($phoneRepeats > 0) {
@@ -45,7 +48,7 @@ class MainController extends Controller
         Member::create($request->all());
 
         return response()->json(['message' => 'Success'], 200);
-//        return view('main/step2', ['request' => $request]);
+//        return view('main.step2', ['request' => $request]);
     }
 
 //    public function step2(Request $req) {
@@ -86,7 +89,7 @@ class MainController extends Controller
 //        Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
 //        Member::insert($request);
 //
-//        return view('main/step2', ['request' => $request]);
+//        return view('main.step2', ['request' => $request]);
 //    }
 
 //    public function social_buttons(Request $req) {
@@ -139,11 +142,11 @@ class MainController extends Controller
         Member::insert($request);
 
         $tw = ['link' => config('link'), 'text' => config('text')];
-        return view("main/social_buttons", ['number' => Member::count(), 'tw' => $tw]);
+        return view("main.social_buttons", ['number' => Member::count(), 'tw' => $tw]);
     }
 
     public function all_members() {
         $members = Member::get();
-        return view('main/all_members', ['members' => $members]);
+        return view('main.all_members', ['members' => $members]);
     }
 }

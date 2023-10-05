@@ -23,7 +23,6 @@
 
         <h3>To participate in the conference, please fill out the form</h3>
         <div id="app">
-{{--            <script src="{{ asset('js/phoneMask.js') }}"></script>--}}
             <form1></form1>
         </div>
 
