@@ -23,24 +23,9 @@
 
         <h3>To participate in the conference, please fill out the form</h3>
         <div id="app">
-            <script src="{{ asset('js/phoneMask.js') }}"></script>
+{{--            <script src="{{ asset('js/phoneMask.js') }}"></script>--}}
             <form1></form1>
         </div>
-
-
-{{--        <script src="resources/js/app.js"></script>--}}
-{{--        <script>--}}
-{{--            new Vue({--}}
-{{--                el: '#app',--}}
-{{--            });--}}
-{{--        </script>--}}
-
-        <script>
-            import ExampleComponent from "../js/components/ExampleComponent.vue";
-            export default {
-                components: {ExampleComponent}
-            }
-        </script>
 
     </div>
 @endsection

@@ -1,4 +1,5 @@
 <template>
+    <p>{{formData}}</p>
     <form @submit.prevent="submitForm" id="form1">
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name (max length: 30 symbols):</label>
@@ -27,7 +28,7 @@
         <div class="mb-3">
             <label for="country" class="form-label">Country:</label>
             <select id="country" name="country" class="form-select search_select_box" v-model="formData.country">
-                <option v-if="!formData.country" value="">Ukraine</option>
+<!--                <option v-if="!formData.country" value="">Ukraine</option>-->
                 <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
             </select>
             <span v-if="formData.country" class="d-none">{{ formData.country[0] }}</span>
@@ -35,7 +36,7 @@
 
         <div class="mb-3">
             <label for="phone" class="form-label">Phone (use this format: +1 (555) 555-5555):</label>
-            <input type="tel" class="form-control" name="phone" id="phone" v-model="formData.phone">
+            <input type="tel" class="form-control" name="phone" id="phone" v-mask="'+9 (999) 999-9999'" v-model="formData.phone">
             <small class="form-text text-danger" v-if="errors.phone">{{ errors.phone[0] }}</small>
         </div>
 
@@ -77,14 +78,17 @@ export default {
     },
     mounted() {
         this.fetchCountries();
+        // $(document).ready(function () {
+        //     const phoneInput = document.getElementById('phone');
+        //     Inputmask({ mask: '+9[9] (999) 999-9999' }).mask(phoneInput);
+        // });
     },
     methods: {
         fetchCountries() {
             fetch('https://restcountries.com/v3.1/all')
                 .then((res) => res.json())
                 .then((data) => {
-                    const countryNames = data.map((country) => country.name['common']).sort();
-                    this.countries = countryNames;
+                    this.countries = data.map((country) => country.name['common']).sort();
                 })
                 .catch((err) => {
                     console.log(err);

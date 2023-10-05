@@ -20,8 +20,9 @@ class MainController extends Controller
             'last_name' => 'required|max:50',
             'birthdate' => 'required|date',
             'report_subject' => 'required|max:150',
-//            'phone' => 'required|regex:/\+\d{1,3}\s\(\d{3}\)\s\d{3}-\d{4}/',
-            'phone' => 'required|not_regex:/_/',
+            'phone' => 'required',
+//            'phone' => 'required|regex:/\+\d{1,2}\s\(\d{3}\)\s\d{3}-\d{4}/',
+//            'phone' => 'required|text|not_regex:/_/',
             'email' => 'required|email|max:70',
         ]);
 
@@ -33,17 +34,18 @@ class MainController extends Controller
         $phoneRepeats = Member::where('phone', $request->phone)->count();
 
         if ($emailRepeats > 0) {
-            return response()->json(['errors' => ['email' => 'This email already exists']], 422);
+            return response()->json(['errors' => ['email' => ['This email already exists']]], 422);
         }
 
         if ($phoneRepeats > 0) {
-            return response()->json(['errors' => ['phone' => 'This phone number already exists']], 422);
+            return response()->json(['errors' => ['phone' => ['This phone number already exists']]], 422);
         }
 
         Member::where('email', $request->email)->where('phone', $request->phone)->delete();
         Member::create($request->all());
 
         return response()->json(['message' => 'Success'], 200);
+//        return view('main/step2', ['request' => $request]);
     }
 
 //    public function step2(Request $req) {
@@ -86,6 +88,41 @@ class MainController extends Controller
 //
 //        return view('main/step2', ['request' => $request]);
 //    }
+
+//    public function social_buttons(Request $req) {
+//        $request = $req->except('_token');
+//
+//        if ($req->hasFile('photo') && $req->file('photo')->isValid()) {
+//            $photoName = uniqid('', true) . '_' . $req->file('photo')->getClientOriginalName();
+//            $req->file('photo')->storeAs('img', $photoName);
+//        } else {
+//            $photoName = '';
+//        }
+//
+//        $request['photo'] = $photoName;
+//
+//        $formData = [
+//            'first_name' => $request['first_name'],
+//            'last_name' => $request['last_name'],
+//            'birthdate' => $request['birthdate'],
+//            'report_subject' => $request['report_subject'],
+//            'country' => $request['country'],
+//            'phone' => $request['phone'],
+//            'email' => $request['email'],
+//        ];
+//
+//        $this->submitFormData($formData);
+//
+//        $tw = ['link' => config('link'), 'text' => config('text')];
+//        return view("main/social_buttons", ['number' => Member::count(), 'tw' => $tw]);
+//    }
+//
+//    private function submitFormData($formData) {
+//        $response = Http::post('/step2', $formData);
+//        $responseData = $response->json();
+//        return $responseData;
+//    }
+
 
     public function social_buttons(Request $req) {
         $request = $req->except('_token');
