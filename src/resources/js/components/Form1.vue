@@ -27,7 +27,6 @@
         <div class="mb-3">
             <label for="country" class="form-label">Country:</label>
             <select id="country" name="country" class="form-select search_select_box" v-model="formData.country">
-<!--                <option v-if="!formData.country" value="">Ukraine</option>-->
                 <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
             </select>
             <span v-if="formData.country" class="d-none">{{ formData.country[0] }}</span>
