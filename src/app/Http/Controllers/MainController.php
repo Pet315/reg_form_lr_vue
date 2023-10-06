@@ -12,8 +12,12 @@ class MainController extends Controller
         return view('main.index');
     }
 
-    public function step2() {
-        return view('main.step2');
+    public function step2(Request $request) {
+        return view('main.step2', ['request' => $request['data']]);
+    }
+
+    public function social_buttons(Request $request) {
+        return view('main.social_buttons', ['request' => $request['data']]);
     }
 
     public function submit_form1(Request $request)
@@ -37,7 +41,7 @@ class MainController extends Controller
         $phoneRepeats = Member::where('phone', $request->phone)->count();
 
         if ($emailRepeats > 0) {
-            return response()->json(['errors' => ['email' => [$request->all()]]], 422);
+            return response()->json(['errors' => ['email' => ['This email already exists']]], 422);
         }
 
         if ($phoneRepeats > 0) {
@@ -47,91 +51,15 @@ class MainController extends Controller
         Member::where('email', $request->email)->where('phone', $request->phone)->delete();
         Member::create($request->all());
 
-        return response()->json(['message' => 'Success'], 200);
+        return response()->json(['request' => $request->all()], 200);
 //        return view('main.step2', ['request' => $request]);
     }
 
-//    public function step2(Request $req) {
-//        $request = $req->except('_token');
-//        $errors = new \Illuminate\Support\MessageBag;
-//
-//        foreach ($_POST as $key => $value) {
-//            if ($value === '') {
-//                $errors->add("$key", "Please enter $key");
-//            }
-//        }
-//
-//        if (strpos($_POST['phone'], "_")) {
-//            $errors->add('phone', "Enter your phone number in full");
-//        }
-//
-//        if (!strpos($_POST['email'], "@")) {
-//            $errors->add('email', "Please use @ in your email");
-//        }
-//
-//        $emailRepeats = Member::where('email', $request['email'])->count();
-//        $phoneRepeats = Member::where('phone', $request['phone'])->count();
-//
-//        if ($emailRepeats < 1 or $phoneRepeats < 1) {
-//            if ($emailRepeats > 0) {
-//                $errors->add('email', 'This email already exists');
-//            }
-//
-//            if ($phoneRepeats > 0) {
-//                $errors->add('phone', 'This phone number already exists');
-//            }
-//        }
-//
-//        if ($errors->any()) {
-//            return view('main/index', ['old' => $request])->withErrors($errors);
-//        }
-//
-//        Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
-//        Member::insert($request);
-//
-//        return view('main.step2', ['request' => $request]);
-//    }
-
-//    public function social_buttons(Request $req) {
-//        $request = $req->except('_token');
-//
-//        if ($req->hasFile('photo') && $req->file('photo')->isValid()) {
-//            $photoName = uniqid('', true) . '_' . $req->file('photo')->getClientOriginalName();
-//            $req->file('photo')->storeAs('img', $photoName);
-//        } else {
-//            $photoName = '';
-//        }
-//
-//        $request['photo'] = $photoName;
-//
-//        $formData = [
-//            'first_name' => $request['first_name'],
-//            'last_name' => $request['last_name'],
-//            'birthdate' => $request['birthdate'],
-//            'report_subject' => $request['report_subject'],
-//            'country' => $request['country'],
-//            'phone' => $request['phone'],
-//            'email' => $request['email'],
-//        ];
-//
-//        $this->submitFormData($formData);
-//
-//        $tw = ['link' => config('link'), 'text' => config('text')];
-//        return view("main/social_buttons", ['number' => Member::count(), 'tw' => $tw]);
-//    }
-//
-//    private function submitFormData($formData) {
-//        $response = Http::post('/step2', $formData);
-//        $responseData = $response->json();
-//        return $responseData;
-//    }
-
-
-    public function social_buttons(Request $req) {
+    public function submit_form2(Request $req) {
         $request = $req->except('_token');
 
-        if ($req->hasFile('photo') && $req->file('photo')->isValid()) {
-            $photoName = uniqid('', true) . '_' . $req->file('photo')->getClientOriginalName();
+        if ($request['photo']) {
+            $photoName = uniqid('', true) . '_' . $request['photo'];
             $req->file('photo')->storeAs('img', $photoName);
         } else {
             $photoName = '';
@@ -142,7 +70,9 @@ class MainController extends Controller
         Member::insert($request);
 
         $tw = ['link' => config('link'), 'text' => config('text')];
-        return view("main.social_buttons", ['number' => Member::count(), 'tw' => $tw]);
+        echo config('link');
+        return response()->json(['number' => Member::count(), 'tw' => $tw, 'request' => $req->all()], 200);
+//        return view("main.social_buttons", ['number' => Member::count(), 'tw' => $tw]);
     }
 
     public function all_members() {

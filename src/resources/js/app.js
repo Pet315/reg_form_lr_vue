@@ -21,6 +21,12 @@ app.component('example-component', ExampleComponent);
 import Form1 from './components/Form1.vue';
 app.component('form1', Form1);
 
+import Form2 from './components/Form2.vue';
+app.component('form2', Form2);
+
+import Buttons from './components/Buttons.vue';
+app.component('buttons', Buttons);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
