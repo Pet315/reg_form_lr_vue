@@ -6,7 +6,7 @@
 
 @section('body content')
     <div id="app">
-        <buttons :response-data="{{ $request }}"></buttons>
+        <buttons :response-data="{{ json_encode($data) }}"></buttons>
     </div>
 @endsection
 

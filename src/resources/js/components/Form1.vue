@@ -1,4 +1,5 @@
 <template>
+<!--    <p v-if="responseData">{{responseData}}</p>-->
     <form @submit.prevent="submitForm" id="form1">
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name (max length: 30 symbols):</label>
@@ -52,7 +53,20 @@
 import Inputmask from 'inputmask';
 
 export default {
+    props: {
+        responseData: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
+        if (this.responseData) {
+            return {
+                formData: this.responseData,
+                countries: [],
+                errors: {}
+            }
+        }
         return {
             formData: {
                 first_name: '',
@@ -65,10 +79,11 @@ export default {
                 company: '',
                 position: '',
                 about_me: '',
-                photo: ''
+                photo: '',
+                hidden: 0
             },
             countries: [],
-            errors: {},
+            errors: {}
         };
     },
     computed: {
@@ -85,9 +100,6 @@ export default {
         const phoneInput = document.getElementById('phone');
         Inputmask({ mask: '+9[9] (999) 999-9999' }).mask(phoneInput);
     },
-    // directives: {
-    //     mask: VueTheMask.directive,
-    // },
     methods: {
         fetchCountries() {
             fetch('https://restcountries.com/v3.1/all')

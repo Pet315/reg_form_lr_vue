@@ -39,9 +39,15 @@ nav {
 #hide_btn {
     margin-left: 5px;
 }
+#show_btn {
+    margin-left: 1px;
+}
 #del_btn {
     margin-top: 5px;
 }
 #photo {
     margin-left: 10px;
+}
+#members_link {
+    color: black;
 }

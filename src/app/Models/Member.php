@@ -18,6 +18,7 @@ class Member extends Model
         'company',
         'position',
         'about_me',
-        'photo'
+        'photo',
+        'hidden'
     ];
 }

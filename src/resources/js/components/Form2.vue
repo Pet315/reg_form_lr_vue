@@ -1,6 +1,6 @@
 <template>
     {{ formData }}
-    <form id="form2" @submit.prevent="submitForm" enctype="multipart/form-data">
+    <form id="form2" @submit.prevent="submitForm">
         <div class="mb-3">
             <label for="company">Company:</label>
             <input type="text" class="form-control" v-model="formData.company">
@@ -40,28 +40,10 @@ export default {
     },
     data() {
         return {
-            formData: {
-                first_name: this.responseData.request.first_name,
-                last_name: this.responseData.request.last_name,
-                birthdate: this.responseData.request.birthdate,
-                report_subject: this.responseData.request.report_subject,
-                country: this.responseData.request.country,
-                phone: this.responseData.request.phone,
-                email: this.responseData.request.email,
-                company: '',
-                position: '',
-                about_me: '',
-                photo: ''
-            },
+            formData: this.responseData.request,
             fileSizeError: '',
         };
     },
-    // created() {
-    //     const queryData = this.$route.query.data;
-    //     if (queryData) {
-    //         this.receivedData = JSON.parse(decodeURIComponent(queryData));
-    //     }
-    // },
     methods: {
         checkFileSize(event) {
             const photoInput = event.target;
@@ -72,17 +54,20 @@ export default {
                     photoInput.value = '';
                 } else {
                     this.fileSizeError = '';
-                    console.log(photoInput.files[0]);
-                    this.formData.photo = photoInput.files[0]['name'];
+                    // console.log(photoInput.files[0]);
+                    this.formData.photo = photoInput.files[0];
                 }
             }
         },
         submitForm() {
-            axios.post('/submit_form2', this.formData)
+            axios.post('/submit_form2', this.formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
                 .then(response => {
                     if (response.status === 200) {
-                        const data = encodeURIComponent(JSON.stringify(response.data));
-                        window.location.href = `/social_buttons?data=${data}`;
+                        window.location.href = `/social_buttons`;
                     } else {
                         console.log('Error');
                     }

@@ -27,6 +27,12 @@ app.component('form2', Form2);
 import Buttons from './components/Buttons.vue';
 app.component('buttons', Buttons);
 
+import MembersTable from './components/MembersTable.vue';
+app.component('members-table', MembersTable);
+
+import AdminTable from './components/AdminTable.vue';
+app.component('admin-table', AdminTable);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
