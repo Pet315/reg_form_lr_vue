@@ -1,10 +1,13 @@
-FROM php:8.0-apache
+FROM php:7.4-fpm
 
-RUN docker-php-ext-install pdo pdo_mysql
+WORKDIR /var/www/reg_form_php
 
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install zip
 
-RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/php.ini
-RUN echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/php.ini
+CMD ["php-fpm"]
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
 
