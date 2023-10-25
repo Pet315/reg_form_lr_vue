@@ -38,20 +38,22 @@ class MainController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $emailRepeats = Member::where('email', $request->email)->count();
-        $phoneRepeats = Member::where('phone', $request->phone)->count();
+        $emailRepeats = Member::where('email', $request->email)->exists();
+        $phoneRepeats = Member::where('phone', $request->phone)->exists();
 
-        if ($request->company === '') {
-            if ($emailRepeats > 0) {
+        if (is_null($request->company)) {
+            if ($emailRepeats) {
                 return response()->json(['errors' => ['email' => ['This email already exists']]], 422);
             }
-            if ($phoneRepeats > 0) {
+            if ($phoneRepeats) {
                 return response()->json(['errors' => ['phone' => ['This phone number already exists']]], 422);
             }
         }
 
-        Member::where('email', $request->email)->where('phone', $request->phone)->delete();
-        Member::create($request->all());
+        Member::updateOrCreate(
+            ['email' => $request->email, 'phone' => $request->phone],
+            $request->all()
+        );
 
         return response()->json(['request' => $request->all()], 200);
     }
@@ -74,7 +76,7 @@ class MainController extends Controller
     }
 
     public function all_members() {
-        $members = Member::get();
+        $members = Member::cursor();
         return view('main.all_members', ['members' => $members]);
     }
 }
