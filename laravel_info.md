@@ -70,7 +70,7 @@ NPM и YARN – инструменты для того, чтобы устана�
 
 *Route::get('/user/profile', 'UserController@profile')->name('profile');*
 
-*<a href="{{ route('profile') }}">Профиль пользователя</a>*
+*'''<a href="{{ route('profile') }}">Профиль</a>'''*
 
 6\.
 
