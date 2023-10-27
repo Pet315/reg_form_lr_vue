@@ -6,6 +6,10 @@
 
 @section('body content')
     <div id="app">
-        <members-table :members="{{ $members }}"></members-table>
+        <members-table :members="{{ json_encode($members) }}"></members-table>
+    </div>
+
+    <div class="pagination">
+        {{$paginator}}
     </div>
 @endsection

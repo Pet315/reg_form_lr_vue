@@ -76,7 +76,9 @@ class MainController extends Controller
     }
 
     public function all_members() {
-        $members = Member::cursor();
-        return view('main.all_members', ['members' => $members]);
+        $paginator = Member::simplePaginate(3);
+        $members = $paginator->all();
+
+        return view('main.all_members', ['members' => $members, 'paginator' => $paginator]);
     }
 }
