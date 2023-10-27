@@ -58,19 +58,19 @@ nav {
     justify-content: center;
 }
 
-.pagination li {
-    margin: 0 5px;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+/*.pagination li {*/
+/*    margin: 0 5px;*/
+/*    padding: 8px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*}*/
 
-.pagination li.active {
-    background-color: #000;
-    color: #fff;
-}
+/*.pagination li.active {*/
+/*    background-color: #000;*/
+/*    color: #fff;*/
+/*}*/
 
-.pagination li a {
-    text-decoration: none;
-    color: #000;
-}
+/*.pagination li a {*/
+/*    text-decoration: none;*/
+/*    color: #000;*/
+/*}*/
