@@ -58,20 +58,18 @@ class MainController extends Controller
         return response()->json(['request' => $request->all()], 200);
     }
 
-    public function submit_form2(Request $req) {
-        $request = $req->except('_token');
-
-        if ($req->hasFile('photo') && $req->file('photo')->isValid()) {
-            $photoName = uniqid('', true) . '_' . $req->file('photo')->getClientOriginalName();
-            $req->file('photo')->storeAs('img', $photoName);
+    public function submit_form2(Request $request) {
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $photoName = uniqid('', true) . '_' . $request->file('photo')->getClientOriginalName();
+            $request->file('photo')->storeAs('img', $photoName);
         } else {
             $photoName = '';
         }
-        $request['photo'] = $photoName;
+        $request->photo = $photoName;
 
         Member::updateOrCreate(
-            ['email' => $req->email, 'phone' => $req->phone],
-            $req->all()
+            ['email' => $request->email, 'phone' => $request->phone],
+            $request->all()
         );
 
         return response()->json([], 200);

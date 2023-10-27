@@ -1,5 +1,5 @@
 <template>
-    {{ formData }}
+<!--    {{ formData }}-->
     <form id="form2" @submit.prevent="submitForm">
         <div class="mb-3">
             <label for="company">Company:</label>
