@@ -69,8 +69,10 @@ class MainController extends Controller
         }
         $request['photo'] = $photoName;
 
-        Member::where('email', $request['email'])->where('phone', $request['phone'])->delete();
-        Member::create($request);
+        Member::updateOrCreate(
+            ['email' => $req->email, 'phone' => $req->phone],
+            $req->all()
+        );
 
         return response()->json([], 200);
     }
