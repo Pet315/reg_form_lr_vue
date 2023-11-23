@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ParserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::resource('home', HomeController::class);
 
 Route::get('/home/{id}/{hide}', [HomeController::class, 'hide_or_show']);
+
+Route::get('/graph', function () {
+    return view('graph');
+});
+
+Route::get('/parser', [ParserController::class, 'parseData']);
