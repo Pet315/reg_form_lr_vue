@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    Crossword
+    PHP Parser
 @endsection
 
 @section('body content')
