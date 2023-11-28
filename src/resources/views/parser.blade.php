@@ -1,29 +1,15 @@
 @extends('layout')
 
 @section('title')
-    Parser
+    Crossword
 @endsection
 
 @section('body content')
+    <div id="app">
+        <crossword-table :crossword="{{ json_encode($crossword) }}"></crossword-table>
+    </div>
 
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>Length</th>
-        </tr>
-        </thead>
-        <tbody>
-
-{{--        @foreach ($questions as $question)--}}
-            <tr>
-                <td>{{$questions[0]['question']}}</td>
-                <td>{{$questions[0]['answers'][0]}}</td>
-                <td>{{$questions[0]['length'][0]}}</td>
-            </tr>
-{{--        @endforeach--}}
-
-        </tbody>
-    </table>
+    <div class="pagination">
+        {{$paginator}}
+    </div>
 @endsection

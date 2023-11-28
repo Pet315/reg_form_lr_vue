@@ -33,6 +33,9 @@ app.component('members-table', MembersTable);
 import AdminTable from './components/AdminTable.vue';
 app.component('admin-table', AdminTable);
 
+import Crossword from './components/CrosswordTable.vue';
+app.component('crossword-table', Crossword);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
